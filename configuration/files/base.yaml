@@ -1,0 +1,4 @@
+application:
+  port: 8050
+  hmac_secret: "super-long-and-secret-random-key-needed-to-verify-message-integrity"
+files_root_directory: "E:/server-files"

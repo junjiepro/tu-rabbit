@@ -1,0 +1,9 @@
+application:
+  port: 8010
+  hmac_secret: "super-long-and-secret-random-key-needed-to-verify-message-integrity"
+mail:
+  host: "xxx.xxx.xxx.xxx"
+  port: 25
+  username: "xxx@xxx.COM.CN"
+  password: "xxx"
+  timeout: 25000

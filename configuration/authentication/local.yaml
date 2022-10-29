@@ -1,0 +1,6 @@
+application:
+  host: 127.0.0.1
+  base_url: "http://127.0.0.1"
+  forbidden_admin_application_msg_id: false
+database:
+  require_ssl: false

@@ -1,0 +1,61 @@
+[package]
+name = "authentication"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+telemetry = { path = "../telemetry", version = "0.1" }
+configuration = { path = "../configuration", version = "0.1" }
+data-transmission = { path = "../data_transmission", version = "0.1" }
+connector = { path = "../connector", version = "0.1" }
+typed-session = { path = "../typed_session", version = "0.1" }
+typed-redis = { path = "../typed_redis", version = "0.1" }
+mail = { path = "../mail", version = "0.1" }
+
+# other 
+tracing = { version = "0.1", features = ["log"] }
+thiserror = "1"
+anyhow = "1"
+argon2 = { version = "0.3", features = ["std"] }
+secrecy = { version = "0.8", features = ["serde"] }
+uuid = { version = "0.8.1", features = ["v4", "serde"] }
+rand = { version = "0.8", features=["std_rng"] }
+serde = { version = "1", features = ["derive"]}
+serde-aux = "3"
+config = "0.13.0"
+actix-web = "4"
+tracing-actix-web = "0.5"
+actix-web-lab = "0.15"
+actix-web-flash-messages = { version = "0.3", features = ["cookies"] }
+jwt = "0.16.0"
+hmac = "0.12.1"
+sha2 = "0.10.2"
+once_cell = "1"
+tokio = { version = "1", features = ["rt", "macros"] }
+serde_json = "1"
+regex = "1"
+lazy_static = "1.4.0"
+chrono = "0.4.19"
+
+[dependencies.sqlx]
+version = "0.5.7"
+default-features = false
+features = [
+    "runtime-actix-rustls",
+    "macros",
+    "postgres",
+    "uuid",
+    "chrono",
+    "migrate",
+    "offline"
+]
+
+[dependencies.reqwest]
+version = "0.11"
+default-features = false
+features = ["json", "rustls-tls", "cookies"]

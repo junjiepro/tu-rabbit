@@ -1,0 +1,511 @@
+{
+  "db": "PostgreSQL",
+  "0219739f750f8070ecf808fc220c1d57b6d48d45adbd0f75cb2ebfd317006fca": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text",
+          "Text",
+          "Timestamp",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "UPDATE roles\n        SET \n            msg_id = $1,\n            default_msg = $2,\n            namespace = $3,\n            remarks = $4,\n            update_at = $5\n        WHERE role_id = $6"
+  },
+  "08642b060f28a39cbff19866770ed59feac146547900ff57bb0777ab8c51f755": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid"
+        ]
+      }
+    },
+    "query": "DELETE FROM role_and_permission\n        WHERE permission_id = $1"
+  },
+  "0f1ddfdcf2d98a63ff2cfa2e97979175a77fe28495dcf4e27e564717413b6e82": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "DELETE FROM user_and_role\n        WHERE user_id = $1\n        AND role_id = $2"
+  },
+  "1356ab3f5b6607254c1aa616ed90200bef1159c0bbe9d8b8f4fb609a588e0907": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "DELETE FROM role_and_permission\n        WHERE role_id = $1\n        AND permission_id = $2"
+  },
+  "1c329a64893c08010bb54f080cf44dce2bbf489302f354428b3e40b31b13c323": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid"
+        ]
+      }
+    },
+    "query": "DELETE FROM role_and_permission\n        WHERE role_id = $1"
+  },
+  "1fa40f92dfb83dd3e9e0cb65c420632da2920ab7b3088a727a45d6603ecedb5a": {
+    "describe": {
+      "columns": [
+        {
+          "name": "application_id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        },
+        {
+          "name": "msg_id",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "default_msg",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "role_msg_id",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "remarks",
+          "ordinal": 4,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Uuid"
+        ]
+      }
+    },
+    "query": "\n        SELECT application_id, msg_id, default_msg, role_msg_id, remarks\n        FROM applications\n        WHERE application_id = $1\n        "
+  },
+  "2061659e921d907a6dd11074da23a5065fa006f992df117d367f8a58ff1c9349": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text",
+          "Text",
+          "Timestamp",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "UPDATE permissions\n        SET \n            msg_id = $1,\n            default_msg = $2,\n            permission = $3,\n            remarks = $4,\n            update_at = $5\n        WHERE permission_id = $6"
+  },
+  "2714071ff9fe8d8be82f51f250b16b3feae3205eb095a1e1f78b35966adb6179": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Text",
+          "Text",
+          "Int4"
+        ]
+      }
+    },
+    "query": "INSERT INTO users (user_id, username, password_hash, status)\n            VALUES ($1, $2, $3, $4)"
+  },
+  "2880480077b654e38b63f423ab40680697a500ffe1af1d1b39108910594b581b": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "\n        UPDATE users\n        SET password_hash = $1\n        WHERE user_id = $2\n        "
+  },
+  "2faa41f35916fb567afc4500149c72a7182c305ee21d2c253b38fba4f29bd5a6": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid"
+        ]
+      }
+    },
+    "query": "DELETE FROM applications\n        WHERE application_id = $1"
+  },
+  "31bd13b9fc56c7e5e8b2289237c02d1c4f13d7f3ecf4a749d09f1e77917d65d0": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text",
+          "Text",
+          "Timestamp",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "UPDATE applications\n        SET \n            msg_id = $1,\n            default_msg = $2,\n            role_msg_id = $3,\n            remarks = $4,\n            update_at = $5\n        WHERE application_id = $6"
+  },
+  "519de42d6e1495b4b340f83fd2f8ac0631c63a87dde9302b2aa0000a8f2f3eb7": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Text",
+          "Text",
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "INSERT INTO permissions (permission_id, msg_id, default_msg, permission, remarks)\n        VALUES ($1, $2, $3, $4, $5)"
+  },
+  "6a1a1441edf110df3b227c7ff156d8c89031ff662f04e568a6aae74e20cf397c": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "UPDATE users\n        SET password_hash = $1\n        WHERE user_id = $2"
+  },
+  "6a30b72e1a670c40c27865afe08b89d6b402506c62d44265c205507806c93309": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user_id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "password_hash",
+          "ordinal": 2,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT user_id, username, password_hash\n        FROM users\n        WHERE username = $1\n        "
+  },
+  "6ed316ee5ddd87ad011cd00dbfc6fecc143b100c33bb9755319144aa49e2127f": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Text",
+          "Int4",
+          "Text",
+          "Int4"
+        ]
+      }
+    },
+    "query": "INSERT INTO users (user_id, username, user_type, password_hash, status)\n        VALUES ($1, $2, $3, $4, $5)"
+  },
+  "81c96d7d358008d6e7417f75cfa03e1c40c7ed632e70185f55a4a66c27c77ff3": {
+    "describe": {
+      "columns": [
+        {
+          "name": "application_id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        },
+        {
+          "name": "msg_id",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "default_msg",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "role_msg_id",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "remarks",
+          "ordinal": 4,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT application_id, msg_id, default_msg, role_msg_id, remarks\n        FROM applications\n        WHERE msg_id = $1\n        "
+  },
+  "9647d434c24b974a63cacdd6ac0659be9ede87eacd5ae24be05fdff7d10ce76a": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "INSERT INTO role_and_permission (role_id, permission_id)\n        VALUES ($1, $2) "
+  },
+  "9bc68a6dff87bab517bdd11805fcb6611dcff5eae4ab86fecc75a2df950adf6e": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user_id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        }
+      ],
+      "nullable": [
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT user_id\n        FROM users\n        WHERE username = $1\n        "
+  },
+  "a1e2c21094cc98e59c61b35a5e7ace7912692a1b34623248c13e228c72c6b998": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "INSERT INTO user_and_role (user_id, role_id)\n        VALUES ($1, $2) "
+  },
+  "a79f328e16831451de7cdc939c13b79e53d7d65596c8cf38f5098cc779992fc7": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Text",
+          "Text",
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "INSERT INTO applications (application_id, msg_id, default_msg, role_msg_id, remarks)\n        VALUES ($1, $2, $3, $4, $5)"
+  },
+  "a7ec445820b27ec1eb7058987a73cf6f8ddcacd849bfd67ddcf9656c0701a0bc": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid"
+        ]
+      }
+    },
+    "query": "DELETE FROM user_and_role\n        WHERE user_id = $1"
+  },
+  "b5a09a7b062748b675dc917fb31fe0bea62c14e4f06eac25c036811af3e8169b": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid"
+        ]
+      }
+    },
+    "query": "DELETE FROM user_and_role\n        WHERE role_id = $1"
+  },
+  "d069308f647673383a2771a49b8f80a95c699661b9ac2517158c9089b2ab8f6f": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Timestamp",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "UPDATE users\n        SET \n            name = $1,\n            update_at = $2\n        WHERE user_id = $3"
+  },
+  "dde078825751d2e0adc4e4d48f37a1b84d79758afe23d767ade3b5aac35e0bc8": {
+    "describe": {
+      "columns": [
+        {
+          "name": "application_id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        },
+        {
+          "name": "msg_id",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "default_msg",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "role_msg_id",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "remarks",
+          "ordinal": 4,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\n        SELECT application_id, msg_id, default_msg, role_msg_id, remarks\n        FROM applications\n        WHERE application_id IS NOT NULL\n        ORDER BY msg_id\n        "
+  },
+  "eb08d645ff68b430518e9218bab445d880c4f148e3cae887f8401667585457b1": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Text",
+          "Text",
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "INSERT INTO roles (role_id, msg_id, default_msg, namespace, remarks)\n        VALUES ($1, $2, $3, $4, $5)"
+  },
+  "f1520f401aebc664a4843e1db8711ce5f58adbb2dbb599e6aa8e82e5b00edca2": {
+    "describe": {
+      "columns": [
+        {
+          "name": "permission_id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        },
+        {
+          "name": "msg_id",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "default_msg",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "permission",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "remarks",
+          "ordinal": 4,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Uuid"
+        ]
+      }
+    },
+    "query": "SELECT p.permission_id, p.msg_id, p.default_msg, p.permission, p.remarks\n        FROM permissions p\n        JOIN role_and_permission r_p ON p.permission_id = r_p.permission_id\n        JOIN user_and_role u_r ON r_p.role_id = u_r.role_id\n        WHERE u_r.user_id = $1\n        ORDER BY p.msg_id"
+  }
+}

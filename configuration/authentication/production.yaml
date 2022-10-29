@@ -1,0 +1,9 @@
+application:
+  host: 0.0.0.0
+  base_url: "http://0.0.0.0"
+  forbidden_admin_application_msg_id: true
+database:
+  host: 172.19.0.3
+  port: 5432
+  require_ssl: false
+redis_uri: "redis://172.19.0.2:6379"
