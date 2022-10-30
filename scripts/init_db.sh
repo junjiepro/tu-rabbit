@@ -15,19 +15,19 @@ exit 1
 fi
 
 # Check if a custom user has been set, otherwise default to 'postgres'
-DB_USER=${POSTGRES_USER:=strut_configurator}
+DB_USER=${POSTGRES_USER:=tu_rabbit}
 # Check if a custom password has been set, otherwise default to 'password'
-DB_PASSWORD="${POSTGRES_PASSWORD:=f82c6673c00442688880f1c419979fe2}"
+DB_PASSWORD="${POSTGRES_PASSWORD:=******}"
 # Check if a custom database name has been set, otherwise default to 'newsletter'
-DB_NAME="${POSTGRES_DB:=strut_configurator}"
+DB_NAME="${POSTGRES_DB:=tu_rabbit}"
 # Check if a custom port has been set, otherwise default to '5432'
 DB_PORT="${POSTGRES_PORT:=5432}"
 
 # docker run \
 # --restart always \
-# -e POSTGRES_USER=strut_configurator \
-# -e POSTGRES_PASSWORD=f82c6673c00442688880f1c419979fe2 \
-# -e POSTGRES_DB=strut_configurator \
+# -e POSTGRES_USER=tu_rabbit \
+# -e POSTGRES_PASSWORD=****** \
+# -e POSTGRES_DB=tu_rabbit \
 # -p "5432":5432 \
 # -d postgres \
 # postgres -N 1000
