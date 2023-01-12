@@ -14,6 +14,7 @@ use typed_session::TypedSessionMiddleware;
 use crate::api::configuration::{DatabaseSettings, Settings};
 use crate::api::configuration::get_authentication_configuration;
 use crate::api::application::Application;
+use crate::connectors::permission_middleware::PermissionService;
 use crate::connectors::{AuthenticationCurrentUserResult, AuthenticationConnectorType};
 use crate::connectors::inner::{get_connection_pool, InnerAuthenticationConnector, inner_middleware_fn};
 use crate::connectors::web::{WebAuthenticationConnector, web_middleware_fn};
@@ -578,6 +579,12 @@ async fn build_application(
                         .connector_service(Some("/authentication"), connector_server.get_ref())
                         .route("/test-inner/health-check", web::get().to(inner_health_check))
                         .route("/test-inner/current-user", web::get().to(inner_current_user))
+                        .service_with_permission_routes("/test-inner/permission-routes", vec![
+                            ("admin", "/", actix_web::http::Method::GET, web::get().to(inner_service_with_permission_routes)),
+                            ("admin", "/", actix_web::http::Method::POST, web::post().to(inner_service_with_permission_routes)),
+                            ("admin", "/three", actix_web::http::Method::GET, web::get().to(inner_service_with_permission_routes)),
+                            ("foo::bar", "/four", actix_web::http::Method::GET, web::get().to(inner_service_with_permission_routes)),
+                        ])
                     )
                     .app_data(typed_redis.clone())
             })
@@ -602,6 +609,10 @@ async fn inner_current_user(current_user: web::ReqData<AuthenticationCurrentUser
         AuthenticationCurrentUserResult::User(user, _) => build_http_response_data(user),
         AuthenticationCurrentUserResult::Error(e) => build_http_response_error_data(e),
     }
+}
+
+async fn inner_service_with_permission_routes() -> HttpResponse {
+    build_http_response_empty_data()
 }
 
 async fn web_health_check(connector: Data<WebAuthenticationConnector>) -> HttpResponse {

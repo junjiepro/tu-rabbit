@@ -1,6 +1,6 @@
 use crate::connectors::AuthenticationCurrentUserResult;
 use crate::domain::namespace::Namespace;
-use actix_web::FromRequest;
+use actix_web::{FromRequest, http, guard};
 use actix_web::error::InternalError;
 use actix_web::web::{ReqData, Data};
 use actix_web_lab::middleware::{Next, from_fn};
@@ -10,6 +10,7 @@ use data_transmission::error::{self, CommonError};
 use actix_web::{Route, dev::{ServiceFactory}, Scope, Error, web};
 use data_transmission::web::build_http_response_error_data;
 
+#[derive(Debug)]
 struct Permission(pub String);
 
 
@@ -94,11 +95,11 @@ pub trait PermissionService {
     ///     .service(
     ///         web::scope("/api")
     ///             .service_with_permission_routes("/user", vec![
-    ///                 ("admin", "/find_users", web::get().to(service::user::find_users)
+    ///                 ("admin", "/find_users", http::Method::GET, web::get().to(service::user::find_users)
     ///             ])
     ///     )
     /// ```
-    fn service_with_permission_routes(self: Self, path: &str, routes: Vec<(&str, &str, Route)>) -> Self;
+    fn service_with_permission_routes(self: Self, path: &str, routes: Vec<(&str, &str, http::Method, Route)>) -> Self;
 }
 
 impl<T> PermissionService for Scope<T>
@@ -123,17 +124,25 @@ where
         )
     }
 
-    fn service_with_permission_routes(self: Self, path: &str, routes: Vec<(&str, &str, Route)>) -> Self {
-        let mut scope = web::scope("");
-        for route in routes {
-            scope = scope
-                .route(route.1, route.2)
-                .app_data(Data::new(Permission(route.0.into())));
-        }
+    fn service_with_permission_routes(self: Self, path: &str, routes: Vec<(&str, &str, http::Method, Route)>) -> Self {
         self.service(
             web::scope(path)
-                .wrap(from_fn(middleware_fn))
-                .service(scope)
+                .service(
+                    routes
+                        .into_iter()
+                        .fold(
+                            web::scope(""),
+                            |prev, r| {
+                                prev.service(
+                                    web::resource(r.1)
+                                        .wrap(from_fn(middleware_fn))
+                                        .app_data(Data::new(Permission(r.0.into())))
+                                        .guard(guard::Method(r.2))
+                                        .route(r.3)
+                                )
+                            }
+                        )
+                )
         )
     }
 }
