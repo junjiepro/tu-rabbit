@@ -1,12 +1,11 @@
 use crate::connectors::AuthenticationCurrentUserResult;
 use crate::domain::namespace::Namespace;
 use actix_web::{FromRequest, http, guard};
-use actix_web::error::InternalError;
 use actix_web::web::{ReqData, Data};
 use actix_web_lab::middleware::{Next, from_fn};
 use actix_web::body::BoxBody;
 use actix_web::dev::{ServiceRequest, ServiceResponse, HttpServiceFactory};
-use data_transmission::error::{self, CommonError};
+use data_transmission::error::CommonError;
 use actix_web::{Route, dev::{ServiceFactory}, Scope, Error, web};
 use data_transmission::web::build_http_response_error_data;
 
@@ -183,23 +182,23 @@ async fn middleware_fn(
                                 return next.call(req).await;
                             } else {
                                 let response = build_http_response_error_data(CommonError::NoPermissionError(anyhow::anyhow!(format!("No Permission to access {}.", &permission.0))));
-                                let e = anyhow::anyhow!("No Permission to access.");
-                                return Err(InternalError::from_response(e, response).into());
+                                let (r, _) = req.into_parts();
+                                return Ok(ServiceResponse::new(r, response));
                             }
                         },
                         Err(e) => {
-                            let response = build_http_response_error_data(CommonError::UnexpectedError(e.into()));
-                            let e = anyhow::anyhow!("The permission value is invalid.");
-                            return Err(InternalError::from_response(e, response).into());
+                            let response = build_http_response_error_data(CommonError::NoPermissionError(anyhow::anyhow!(format!("The permission value is invalid {}.", &permission.0))));
+                            let (r, _) = req.into_parts();
+                            return Ok(ServiceResponse::new(r, response));
                         }
                     }
                 }
             }
         }
         // 未登录
-        let response = build_http_response_error_data(error::Error::default());
-        let e = anyhow::anyhow!("The user has not logged in");
-        Err(InternalError::from_response(e, response).into())
+        let response = build_http_response_error_data(CommonError::NoPermissionError(anyhow::anyhow!("The user has not logged in")));
+        let (r, _) = req.into_parts();
+        Ok(ServiceResponse::new(r, response))
     } else {
         next.call(req).await
     }

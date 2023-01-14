@@ -1,10 +1,9 @@
 /// 中间件
 
 use crate::connectors::AuthenticationCurrentUserResult;
-use data_transmission::error;
+use data_transmission::error::CommonError;
 use data_transmission::web::build_http_response_error_data;
 use actix_web::web::ReqData;
-use actix_web::error::InternalError;
 use actix_web_lab::middleware::Next;
 use actix_web::body::BoxBody;
 use actix_web::dev::{ServiceRequest, ServiceResponse};
@@ -31,16 +30,16 @@ pub async fn reject_anonymous_users(
                     next.call(req).await
                 },
                 AuthenticationCurrentUserResult::Error(e) => {
-                    let response = build_http_response_error_data(e);
-                    let e = anyhow::anyhow!("The user has not logged in");
-                    Err(InternalError::from_response(e, response).into())
+                    let response = build_http_response_error_data(CommonError::NoPermissionError(anyhow::anyhow!(format!("The user has not logged in {:?}.", &e))));
+                    let (r, _) = req.into_parts();
+                    Ok(ServiceResponse::new(r, response))
                 }
             }
         },
         Err(_) => {
-            let response = build_http_response_error_data(error::Error::default());
-            let e = anyhow::anyhow!("The user has not logged in");
-            Err(InternalError::from_response(e, response).into())
+            let response = build_http_response_error_data(CommonError::NoPermissionError(anyhow::anyhow!("The user has not logged in")));
+            let (r, _) = req.into_parts();
+            Ok(ServiceResponse::new(r, response))
         }
     }
 }

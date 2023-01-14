@@ -4,7 +4,6 @@ use crate::connectors::{AuthenticationCurrentUserResult, ApplicationToBind};
 use crate::connectors::inner::{InnerAuthenticationConnector, ApplicationPgPool, HmacSecret};
 use crate::domain::cache::Cache;
 use crate::handler::cookie::set_credentials_cookie;
-use actix_web::error::InternalError;
 use actix_web::{HttpMessage, FromRequest};
 use actix_web::web::Data;
 use actix_web_lab::middleware::Next;
@@ -107,10 +106,8 @@ pub async fn inner_middleware_fn(
         ) {
             Ok(_) => Ok(resp),
             Err(e) => {
-                let e = CommonError::UnexpectedError(e.into());
-                let response = build_http_response_error_data(e);
-                let e = anyhow::anyhow!("The user has not logged in");
-                Err(InternalError::from_response(e, response).into())
+                let response = build_http_response_error_data(CommonError::NoPermissionError(anyhow::anyhow!(format!("The user has not logged in {}.", &e))));
+                Ok(resp.into_response(response))
             }
         };
 
